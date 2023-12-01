@@ -7,11 +7,42 @@ import { ITarefa } from '../types/ITarefa';
 
 export default function App() {
   const [tarefas, setTarefas] = useState<ITarefa[] | []>([])
+  const [selecionado, setSelecionado] = useState<ITarefa>();
+
+  function selecionaTarefa(tarefaSelecionada: ITarefa) {
+    setSelecionado(tarefaSelecionada);
+    setTarefas(tarefasAnteriores => tarefasAnteriores.map(tarefa =>({
+      ...tarefa,
+      selecionado: tarefa.id === tarefaSelecionada.id ? true : false
+    })));
+  }
+
+  function finalizarTarefa(){
+    if(selecionado) {
+      setSelecionado(undefined)
+      setTarefas(tarefasAnteriores => tarefasAnteriores.map(tarefa => {
+        if (tarefa.id === selecionado.id) {
+          return {
+            ...terefa,
+            selecionado: false,
+            complentado:true
+          }
+        }
+      }))
+    }
+  }
+
   return (
     <div className={style.AppStyle}>
        <Formulario setTarefas={setTarefas}/>
-       <Lista tarefas={tarefas}/>
-       <Timer/>
+       <Lista 
+          tarefas={tarefas}
+          selecionaTarefa={selecionaTarefa}
+        />
+       <Timer 
+        selecionado={selecionado}
+        finalizarTarefa={finalizarTarefa}
+        />
     </div>
   );
 }
