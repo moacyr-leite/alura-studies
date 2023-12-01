@@ -23,11 +23,12 @@ export default function App() {
       setTarefas(tarefasAnteriores => tarefasAnteriores.map(tarefa => {
         if (tarefa.id === selecionado.id) {
           return {
-            ...terefa,
+            ...tarefa,
             selecionado: false,
             complentado:true
           }
         }
+        return tarefa;
       }))
     }
   }
